@@ -28,19 +28,26 @@ func NewHTTPReader(root string) (wof_reader.Reader, error) {
 	return &r, nil
 }
 
-func (r *HTTPReader) Read(key string) (io.ReadCloser, error) {
+func (r *HTTPReader) Read(path string) (io.ReadCloser, error) {
 
-	url := r.root.String() + key
+     	uri := r.URI(path)
 
-	if !strings.HasSuffix(r.root.String(), "/") && !strings.HasPrefix(key, "/") {
-		url = r.root.String() + "/" + key
-	}
-
-	rsp, err := http.Get(url)
+	rsp, err := http.Get(uri)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return rsp.Body, nil
+}
+
+func (r *HTTPReader) URI(path string) string {
+
+	url := r.root.String() + path
+
+	if !strings.HasSuffix(r.root.String(), "/") && !strings.HasPrefix(path, "/") {
+		url = r.root.String() + "/" + path
+	}
+
+	return url
 }

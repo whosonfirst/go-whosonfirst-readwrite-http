@@ -20,3 +20,7 @@ func NewHTTPWriter(root string) (wof_writer.Writer, error) {
 func (wr *HTTPWriter) Write(path string, fh io.ReadCloser) error {
 	return errors.New("Please write me")
 }
+
+func (wr *HTTPWriter) URI(path string) string{
+     return ""
+}
